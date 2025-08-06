@@ -1,11 +1,11 @@
-# 📄 SwiftUI + PDFKit: Create and Share PDFs in Minutes
+# � SwiftUI + PDFKit: Create and Share PDFs in Minutes
 
 This project shows how to create, display, and share **PDF files** using **SwiftUI** and **PDFKit**.  
 Perfect for apps that need to export **workout sheets, financial reports, or any custom document**.
 
 ---
 
-## 🚀 Features
+## � Features
 
 - Generate PDF files directly within the app  
 - Display PDFs inside a `SwiftUI View`  
@@ -14,7 +14,7 @@ Perfect for apps that need to export **workout sheets, financial reports, or any
 
 ---
 
-## 📦 Requirements
+##  Requirements
 
 - iOS 15+  
 - SwiftUI  
@@ -22,9 +22,9 @@ Perfect for apps that need to export **workout sheets, financial reports, or any
 
 ---
 
-## 📚 How It Works
+##  How It Works
 
-### 1️⃣ Generate a PDF
+### 1️ Generate a PDF
 
 ```swift
 @MainActor
@@ -37,4 +37,28 @@ func generatePDF() -> Data {
         text.draw(at: CGPoint(x: 100, y: 100), withAttributes: attributes)
     }
     return data
+}
+
+@MainActor
+private func preparePDF() -> URL {
+    let pdfData = generatePDF()
+    let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("MeuTreino.pdf")
+    try? pdfData.write(to: tempURL)
+    return tempURL
+}
+
+struct PDFKitView: UIViewRepresentable {
+    let pdfDocument: PDFDocument
+    init(pdfData pdfDoc: PDFDocument) {
+        self.pdfDocument = pdfDoc
+    }
+    func makeUIView(context: Context) -> PDFView {
+        let pdfView = PDFView()
+        pdfView.document = pdfDocument
+        pdfView.autoScales = true
+        return pdfView
+    }
+    func updateUIView(_ pdfView: PDFView, context: Context) {
+        pdfView.document = pdfDocument
+    }
 }
