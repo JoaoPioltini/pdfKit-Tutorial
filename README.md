@@ -38,7 +38,10 @@ func generatePDF() -> Data {
     }
     return data
 }
+```
 
+### Create a temporary URL
+```swift
 @MainActor
 private func preparePDF() -> URL {
     let pdfData = generatePDF()
@@ -46,7 +49,9 @@ private func preparePDF() -> URL {
     try? pdfData.write(to: tempURL)
     return tempURL
 }
-
+```
+### PDFKitView
+```swift
 struct PDFKitView: UIViewRepresentable {
     let pdfDocument: PDFDocument
     init(pdfData pdfDoc: PDFDocument) {
